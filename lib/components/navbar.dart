@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lvup_shop/screen/notification/notification_page.dart';
 import 'package:lvup_shop/screen/profile/profile_page.dart';
+import 'package:lvup_shop/screen/register/register_page.dart';
 import 'package:lvup_shop/screen/wish_list/wish_list_page.dart';
 
 int currentpage = 0;
@@ -10,7 +11,7 @@ final screen = [
   WishListPage(),
   Container(),
   Container(),
-  Container(),
+  registerPage(),
   ProfilePage(),
 ];
 
