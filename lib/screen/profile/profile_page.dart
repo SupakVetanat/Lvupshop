@@ -20,7 +20,7 @@ class ProfilePage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 30),
                   child: Container(
-                      height: 180.w,
+                      height: 170.w,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         boxShadow: [
@@ -73,12 +73,16 @@ class ProfilePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         SizedBox(
-                          height: 25.w,
+                          height: 45.w,
                         ),
                         Text(
                           "Username",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 27.sp),
+                        ),
+                        Text(
+                          "user@gmail.com",
+                          style: TextStyle(fontSize: 13.sp, color: Colors.grey),
                         ),
                         SizedBox(
                           height: 10.w,
@@ -87,8 +91,8 @@ class ProfilePage extends StatelessWidget {
                           width: 0.4.sw,
                           child: Flexible(
                               child: Text(
-                            "descriptionnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
-                            maxLines: 5,
+                            "descriptionnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+                            maxLines: 4,
                             softWrap: false,
                             overflow: TextOverflow.ellipsis,
                           )),
@@ -97,68 +101,72 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Positioned(
-                  left: 100.w,
-                  top: 175.h,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Ink(
-                          decoration: ShapeDecoration(
-                            color: Color(0xff46B1C9),
-                            shape: CircleBorder(),
-                          ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Color(0xffD0F5F6),
-                              onPrimary: Color(0xff46B1C9),
-                              padding: EdgeInsets.zero,
-                              shape: const CircleBorder(),
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Ink(
+                            decoration: ShapeDecoration(
+                              color: Color(0xff46B1C9),
+                              shape: CircleBorder(),
                             ),
-                            onPressed: () {},
-                            child: const Icon(Icons.chat_rounded),
-                          )),
-                      Ink(
-                          decoration: ShapeDecoration(
-                            color: Color(0xff46B1C9),
-                            shape: CircleBorder(),
-                          ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Color(0xffE9F6DC),
-                              onPrimary: Colors.lightGreen,
-                              padding: EdgeInsets.zero,
-                              shape: const CircleBorder(),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xffD0F5F6),
+                                onPrimary: Color(0xff46B1C9),
+                                padding: EdgeInsets.zero,
+                                shape: const CircleBorder(),
+                              ),
+                              onPressed: () {},
+                              child: const Icon(Icons.chat_rounded),
+                            )),
+                        Ink(
+                            decoration: ShapeDecoration(
+                              color: Color(0xff46B1C9),
+                              shape: CircleBorder(),
                             ),
-                            onPressed: () {},
-                            child: const Icon(Icons.check_rounded),
-                          )),
-                      Icon(
-                        Icons.star_rounded,
-                        color: Color(0xffEEC643),
-                        size: 30.h,
-                      ),
-                      Icon(
-                        Icons.star_rounded,
-                        color: Color(0xffEEC643),
-                        size: 30.h,
-                      ),
-                      Icon(
-                        Icons.star_rounded,
-                        color: Color(0xffEEC643),
-                        size: 30.h,
-                      ),
-                      Icon(
-                        Icons.star_rounded,
-                        color: Color(0xffEEC643),
-                        size: 30.h,
-                      ),
-                      Icon(
-                        Icons.star_rounded,
-                        color: Color(0xffEEC643),
-                        size: 30.h,
-                      ),
-                    ],
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xffE9F6DC),
+                                onPrimary: Colors.lightGreen,
+                                padding: EdgeInsets.zero,
+                                shape: const CircleBorder(),
+                              ),
+                              onPressed: () {},
+                              child: const Icon(Icons.check_rounded),
+                            )),
+                        Icon(
+                          Icons.star_rounded,
+                          color: Color(0xffEEC643),
+                          size: 30.h,
+                        ),
+                        Icon(
+                          Icons.star_rounded,
+                          color: Color(0xffEEC643),
+                          size: 30.h,
+                        ),
+                        Icon(
+                          Icons.star_rounded,
+                          color: Color(0xffEEC643),
+                          size: 30.h,
+                        ),
+                        Icon(
+                          Icons.star_rounded,
+                          color: Color(0xffEEC643),
+                          size: 30.h,
+                        ),
+                        Icon(
+                          Icons.star_rounded,
+                          color: Color(0xffEEC643),
+                          size: 30.h,
+                        ),
+                        SizedBox(
+                          width: 20.w,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ]),

@@ -171,7 +171,7 @@ Widget wishListItems(
                   ),
                 ), //Pic
                 SizedBox(
-                  width: 0.08.sw,
+                  width: 0.05.sw,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
