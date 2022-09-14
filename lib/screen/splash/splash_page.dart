@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lvup_shop/components/navbar.dart';
+import 'package:lvup_shop/screen/Login.dart';
 
 class splashPage extends StatefulWidget {
   @override
@@ -24,7 +25,7 @@ class _splashPageState extends State<splashPage> {
                   //ProfilePage()
                   //notificationPage()
                   //editProfilePage()
-                  navBar()
+                  Login()
               //
               ));
     });

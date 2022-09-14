@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lvup_shop/screen/Login.dart';
+import 'package:lvup_shop/screen/home.dart';
 import 'package:lvup_shop/screen/splash/splash_page.dart';
 
 void main() {
