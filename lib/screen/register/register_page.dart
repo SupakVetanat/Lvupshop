@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lvup_shop/components/Rounded_PasswordField.dart';
 import 'package:lvup_shop/components/Rounded_TextFormField.dart';
 import 'package:lvup_shop/components/validators.dart';
+import 'package:lvup_shop/models/Profile_model.dart';
 
 class registerPage extends StatefulWidget {
   const registerPage({Key? key}) : super(key: key);
@@ -19,6 +23,17 @@ class _registerPageState extends State<registerPage> {
     setState(() {
       _radioValue = value;
       print(value);
+    });
+  }
+
+  File? _image;
+  Future getImage() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+
+    final imageTemporary = File(image.path);
+    setState(() {
+      this._image = imageTemporary;
     });
   }
 
@@ -73,9 +88,12 @@ class _registerPageState extends State<registerPage> {
                         children: [
                           CircleAvatar(
                               radius: 0.25.sw, // Image radius
-                              backgroundImage: NetworkImage(
-                                'https://pbs.twimg.com/media/FYhq1n0XwAAqKil?format=jpg&name=medium',
-                              )),
+                              backgroundImage: _image != null
+                                  ? FileImage(File(_image!.path))
+                                      as ImageProvider
+                                  : AssetImage(
+                                      'assets/images/user_img.jpg',
+                                    )),
                           Positioned.fill(
                             child: Align(
                               alignment: Alignment.bottomRight,
@@ -91,7 +109,7 @@ class _registerPageState extends State<registerPage> {
                                       padding: EdgeInsets.all(10.r),
                                       shape: const CircleBorder(),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: getImage,
                                     child: Icon(
                                       Icons.image,
                                       size: 30.sp,
@@ -333,18 +351,4 @@ class _registerPageState extends State<registerPage> {
           ),
         )));
   }
-}
-
-class Profile {
-  String email;
-  String password;
-  String repassword;
-  String name;
-  String birth;
-  Profile(
-      {required this.email,
-      required this.password,
-      required this.repassword,
-      required this.name,
-      required this.birth});
 }
