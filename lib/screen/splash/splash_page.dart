@@ -32,22 +32,17 @@ class _splashPageState extends State<splashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-        designSize: const Size(360, 690),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, child) {
-          return Scaffold(
-            body: Container(
-              decoration: BoxDecoration(color: Colors.white),
-              child: Center(
-                child: Container(
-                  width: 0.5.sw,
-                  child: Image.asset("assets/images/logo.png"),
-                ),
-              ),
-            ),
-          );
-        });
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(color: Colors.white),
+        child: Center(
+          child: Container(
+            width: 0.5.sw,
+            child: Image.asset("assets/images/logo.png"),
+          ),
+        ),
+      ),
+    );
+    ;
   }
 }

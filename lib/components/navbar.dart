@@ -8,7 +8,7 @@ import 'package:lvup_shop/screen/profile/profile_page.dart';
 import 'package:lvup_shop/screen/register/register_page.dart';
 import 'package:lvup_shop/screen/wish_list/wish_list_page.dart';
 
-int currentpage = 0;
+int currentpage = 2;
 final screen = [
   WishListPage(),
   HomeCart(), //shop
