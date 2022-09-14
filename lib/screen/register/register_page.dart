@@ -69,11 +69,38 @@ class _registerPageState extends State<registerPage> {
                       SizedBox(
                         height: 10.h,
                       ),
-                      CircleAvatar(
-                          radius: 0.25.sw, // Image radius
-                          backgroundImage: NetworkImage(
-                            'https://pbs.twimg.com/media/FYhq1n0XwAAqKil?format=jpg&name=medium',
-                          )),
+                      Stack(
+                        children: [
+                          CircleAvatar(
+                              radius: 0.25.sw, // Image radius
+                              backgroundImage: NetworkImage(
+                                'https://pbs.twimg.com/media/FYhq1n0XwAAqKil?format=jpg&name=medium',
+                              )),
+                          Positioned.fill(
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: Ink(
+                                  decoration: ShapeDecoration(
+                                    color: Colors.grey,
+                                    shape: CircleBorder(),
+                                  ),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.white,
+                                      onPrimary: Colors.grey,
+                                      padding: EdgeInsets.all(10.r),
+                                      shape: const CircleBorder(),
+                                    ),
+                                    onPressed: () {},
+                                    child: Icon(
+                                      Icons.image,
+                                      size: 30.sp,
+                                    ),
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
                       SizedBox(
                         height: 10.h,
                       ),
