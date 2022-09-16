@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RoundedTextFormField extends StatelessWidget {
   final bool obscureText;
-  final ValueChanged<String> onSubmitted;
+  final void Function(String?)? onSubmitted;
   final IconData? icon;
   final validator;
   final TextInputType keyboard;
@@ -31,7 +31,7 @@ class RoundedTextFormField extends StatelessWidget {
         obscureText: obscureText,
         keyboardType: keyboard,
         validator: validator,
-        onFieldSubmitted: onSubmitted,
+        onSaved: onSubmitted,
         decoration: InputDecoration(
             hintText: hintText,
             helperText: helperText,

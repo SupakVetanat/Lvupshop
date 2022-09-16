@@ -1,13 +1,17 @@
 class Profile {
+  String profileImage;
   String email;
   String password;
   String repassword;
-  String name;
+  String username;
   String birth;
+  String gender;
   Profile(
       {required this.email,
+      required this.profileImage,
       required this.password,
       required this.repassword,
-      required this.name,
-      required this.birth});
+      required this.username,
+      required this.birth,
+      required this.gender});
 }

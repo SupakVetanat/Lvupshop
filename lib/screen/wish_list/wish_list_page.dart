@@ -177,10 +177,18 @@ Widget wishListItems(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
-                      items.title,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 20.sp),
+                    Container(
+                      width: 0.3.sw,
+                      child: Flexible(
+                        child: Text(
+                          items.title,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20.sp),
+                          maxLines: 1,
+                          softWrap: false,
+                          overflow: TextOverflow.clip,
+                        ),
+                      ),
                     ),
                     Container(
                       height: 80.h,

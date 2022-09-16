@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RoundedPasswordField extends StatefulWidget {
-  final ValueChanged<String> onSubmitted;
+  final void Function(String?)? onSubmitted;
   final validator;
   RoundedPasswordField(
       {Key? key, required this.onSubmitted, required this.validator})
@@ -27,7 +27,7 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
         width: 290.w,
         child: TextFormField(
           obscureText: _obscureText,
-          onFieldSubmitted: widget.onSubmitted,
+          onSaved: widget.onSubmitted,
           validator: widget.validator,
           decoration: InputDecoration(
               contentPadding: EdgeInsets.all(0),

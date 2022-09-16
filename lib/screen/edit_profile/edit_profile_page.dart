@@ -36,8 +36,14 @@ class _editProfilePageState extends State<editProfilePage> {
   }
 
   final formkey = GlobalKey<FormState>();
-  Profile profile =
-      Profile(email: ' ', password: ' ', name: ' ', repassword: ' ', birth: '');
+  Profile profile = Profile(
+      profileImage: '',
+      email: ' ',
+      password: ' ',
+      username: ' ',
+      repassword: ' ',
+      birth: '',
+      gender: 'male');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,7 +136,7 @@ class _editProfilePageState extends State<editProfilePage> {
                       RoundedTextFormField(
                         icon: Icons.person,
                         onSubmitted: (String? name) {
-                          profile.name = name!;
+                          profile.username = name!;
                         },
                         // validator: Validators.required("กรุณากรอกข้อมูล"),
                       ),
@@ -291,7 +297,9 @@ class _editProfilePageState extends State<editProfilePage> {
                         child: FlatButton(
                             color: Color(0xffeec643),
                             padding: EdgeInsets.all(15.r),
-                            onPressed: () {},
+                            onPressed: () {
+                              profile.gender = _radioValue;
+                            },
                             child: Text(
                               "Edit profile",
                               style: TextStyle(

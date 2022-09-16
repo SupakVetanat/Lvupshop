@@ -37,9 +37,17 @@ class _registerPageState extends State<registerPage> {
     });
   }
 
+  bool submit = false;
+
   final formkey = GlobalKey<FormState>();
-  Profile profile =
-      Profile(email: ' ', password: ' ', name: ' ', repassword: ' ', birth: '');
+  Profile profile = Profile(
+      profileImage: '',
+      email: ' ',
+      password: ' ',
+      username: ' ',
+      repassword: ' ',
+      birth: '',
+      gender: 'male');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,7 +140,7 @@ class _registerPageState extends State<registerPage> {
                       RoundedTextFormField(
                         icon: Icons.person,
                         onSubmitted: (String? name) {
-                          profile.name = name!;
+                          profile.username = name!;
                         },
                         validator: Validators.required("กรุณากรอกข้อมูล"),
                       ),
@@ -176,7 +184,7 @@ class _registerPageState extends State<registerPage> {
                           Validators.minLength(
                               8, "รหัสผ่านต้องไม่น้อยว่า 8 ตัวอักษร")
                         ]),
-                        onSubmitted: (String? pass) {
+                        onSubmitted: (pass) {
                           profile.password = pass!;
                         },
                       ),
@@ -203,6 +211,10 @@ class _registerPageState extends State<registerPage> {
                         ]),
                         onSubmitted: (String? pass) {
                           profile.repassword = pass!;
+                          print(profile.password +
+                              " " +
+                              profile.repassword +
+                              " ");
                         },
                       ),
                       SizedBox(
@@ -314,6 +326,19 @@ class _registerPageState extends State<registerPage> {
                               ],
                             )),
                       ),
+                      profile.birth == '' && submit
+                          ? Padding(
+                              padding: EdgeInsets.only(top: 8.r),
+                              child: SizedBox(
+                                width: 0.8.sw,
+                                child: Text(
+                                  "กรุณากรอกวันเกิด",
+                                  style: TextStyle(
+                                      color: Colors.red, fontSize: 12.sp),
+                                ),
+                              ),
+                            )
+                          : SizedBox(),
                       SizedBox(
                         height: 10.h,
                       ),
@@ -323,12 +348,19 @@ class _registerPageState extends State<registerPage> {
                             color: Color(0xffeec643),
                             padding: EdgeInsets.all(15.r),
                             onPressed: () {
+                              profile.gender = _radioValue;
                               formkey.currentState?.save();
+                              print("ชื่อ = ${profile.username} อีเมล = ${profile.email} " +
+                                  "รหัสผ่าน = ${profile.password} ยืนยันรหัสผ่าน = ${profile.repassword} เพศ = ${profile.gender} "
+                                      "วันเกิด = ${profile.birth}");
+                              setState(() {
+                                submit = true;
+                              });
                               bool validate = formkey.currentState!.validate();
-                              if (validate) {
-                                print("ชื่อ = ${profile.name} อีเมล = ${profile.email} " +
-                                    "รหัสผ่าน = ${profile.password} ยืนยันรหัสผ่าน = ${profile.repassword}");
+                              if (validate && profile.birth != '') {
                                 formkey.currentState?.reset();
+                                submit = false;
+
                                 // Navigator.push(context,
                                 //     MaterialPageRoute(builder: (context) {
                                 //       return loginPage();
