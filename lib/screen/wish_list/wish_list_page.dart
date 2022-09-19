@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:lvup_shop/screen/wish_list/wishListType.dart';
 
 bool _delete = false;
@@ -73,7 +74,7 @@ class _WishListState extends State<WishListPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "WISH LIST",
+                            "WISH LIST".tr,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20.sp,

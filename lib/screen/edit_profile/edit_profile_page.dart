@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lvup_shop/components/Rounded_TextFormField.dart';
 import 'package:lvup_shop/models/Profile_model.dart';
@@ -129,7 +130,7 @@ class _editProfilePageState extends State<editProfilePage> {
                       SizedBox(
                           width: 0.7.sw,
                           child: Text(
-                            "Username",
+                            "Username".tr,
                             style: TextStyle(fontSize: 16.sp),
                             textAlign: TextAlign.left,
                           )),
@@ -146,7 +147,7 @@ class _editProfilePageState extends State<editProfilePage> {
                       SizedBox(
                           width: 0.7.sw,
                           child: Text(
-                            "Email",
+                            "Email".tr,
                             style: TextStyle(fontSize: 16.sp),
                             textAlign: TextAlign.left,
                           )),
@@ -163,7 +164,7 @@ class _editProfilePageState extends State<editProfilePage> {
                       SizedBox(
                           width: 0.7.sw,
                           child: Text(
-                            "Gender",
+                            "Gender".tr,
                             style: TextStyle(fontSize: 16.sp),
                             textAlign: TextAlign.left,
                           )),
@@ -185,7 +186,7 @@ class _editProfilePageState extends State<editProfilePage> {
                                 _radioValue = "male";
                               });
                             },
-                            child: Text("Male"),
+                            child: Text("Male".tr),
                           ),
                           SizedBox(
                             width: 20.w,
@@ -205,7 +206,7 @@ class _editProfilePageState extends State<editProfilePage> {
                                 _radioValue = "female";
                               });
                             },
-                            child: Text("Female"),
+                            child: Text("Female".tr),
                           ),
                         ],
                       ),
@@ -215,7 +216,7 @@ class _editProfilePageState extends State<editProfilePage> {
                       SizedBox(
                           width: 0.7.sw,
                           child: Text(
-                            "Birthday",
+                            "Birthday".tr,
                             style: TextStyle(fontSize: 16.sp),
                             textAlign: TextAlign.left,
                           )),
@@ -277,7 +278,7 @@ class _editProfilePageState extends State<editProfilePage> {
                       SizedBox(
                         width: 0.7.sw,
                         child: Text(
-                          "Description",
+                          "Description".tr,
                           style: TextStyle(fontSize: 16.sp),
                           textAlign: TextAlign.left,
                         ),
@@ -301,7 +302,7 @@ class _editProfilePageState extends State<editProfilePage> {
                               profile.gender = _radioValue;
                             },
                             child: Text(
-                              "Edit profile",
+                              "Edit profile".tr,
                               style: TextStyle(
                                   color: Colors.white, fontSize: 17.sp),
                             )),
