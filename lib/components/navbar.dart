@@ -1,6 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:lvup_shop/screen/home.dart';
 import 'package:lvup_shop/screen/home_cart.dart';
 import 'package:lvup_shop/screen/notification/notification_page.dart';
@@ -63,7 +64,15 @@ class _navBarState extends State<navBar> {
                   onPrimary: Color(0xffeec643),
                   shape: const CircleBorder(),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  var locale = Locale('en', 'EN');
+                  if (Get.locale.toString() == 'th_TH') {
+                    locale = Locale('en', 'EN');
+                  } else {
+                    locale = Locale('th', 'TH');
+                  }
+                  Get.updateLocale(locale);
+                },
                 child: Icon(
                   Icons.settings,
                   size: 25.r,

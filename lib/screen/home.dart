@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:lvup_shop/models/models.dart';
 import 'package:lvup_shop/widgets/section_title_item.dart';
 import 'package:lvup_shop/widgets/widgets.dart';
-
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
                 Container(
                   padding: EdgeInsets.only(top: 20, left: 30),
                   child: Text(
-                    "Recommend",
+                    "Recommend".tr,
                     style: TextStyle(
                       color: Color(0xFF242F40),
                       fontSize: 40,
@@ -96,7 +96,7 @@ class _HomeState extends State<Home> {
                 // ), //game
 
                 SectionTitle(
-                  title: 'Game ',
+                  title: 'Game'.tr,
                 ),
                 GameCarousel(products: Product.products
                     // .where((product) => product.isRecommended)
