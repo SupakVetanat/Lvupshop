@@ -1,11 +1,11 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lvup_shop/screen/Cart/Cart.dart';
 import 'package:lvup_shop/screen/home.dart';
 import 'package:lvup_shop/screen/home_cart.dart';
 import 'package:lvup_shop/screen/notification/notification_page.dart';
 import 'package:lvup_shop/screen/profile/profile_page.dart';
-import 'package:lvup_shop/screen/register/register_page.dart';
 import 'package:lvup_shop/screen/wish_list/wish_list_page.dart';
 
 int currentpage = 2;
@@ -13,7 +13,7 @@ final screen = [
   WishListPage(),
   HomeCart(), //shop
   Home(), //.ใส่ home
-  registerPage(),
+  CartPage(),
   ProfilePage(),
 ];
 
