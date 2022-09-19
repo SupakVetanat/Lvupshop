@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lvup_shop/screen/Login.dart';
-import 'package:lvup_shop/screen/home.dart';
+import 'package:get/get.dart';
+import 'package:lvup_shop/LocaleString.dart';
 import 'package:lvup_shop/screen/splash/splash_page.dart';
 
 void main() {
@@ -19,10 +19,12 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
-          return MaterialApp(
+          return GetMaterialApp(
+            translations: LocaleString(),
+            locale: Locale('en', 'US'),
             title: "My App",
             home: splashPage(),
-            theme: ThemeData(primarySwatch: Colors.blue),
+            theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Kanit'),
           );
         });
   }

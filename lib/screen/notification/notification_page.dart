@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 import 'notificationType.dart';
 
@@ -72,7 +73,7 @@ class _notificationPageState extends State<notificationPage> {
                     ],
                   ),
                   child: Text(
-                    "NOTIFICATION",
+                    "NOTIFICATION".tr,
                     style: TextStyle(
                         fontSize: 40.sp,
                         color: Color(0xff242f40),

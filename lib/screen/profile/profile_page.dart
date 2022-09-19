@@ -92,7 +92,7 @@ class ProfilePage extends StatelessWidget {
                           child: Flexible(
                               child: Text(
                             "descriptionnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
-                            maxLines: 4,
+                            maxLines: 3,
                             softWrap: false,
                             overflow: TextOverflow.ellipsis,
                           )),
