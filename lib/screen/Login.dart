@@ -169,6 +169,42 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     )), //ปุ่ม register
+
+                Center(
+                  child: FloatingActionButton.extended(
+                    onPressed: () {},
+                    icon: Image.asset(
+                      'assets/images/googlelogo.png',
+                      height: 32,
+                      width: 50,
+                    ),
+                    label: Text(
+                      'Sign in with Google',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    backgroundColor: Colors.white,
+                  ),
+                ),
+
+                SizedBox(
+                  height: 7.h,
+                ),
+
+                Center(
+                  child: FloatingActionButton.extended(
+                    onPressed: () {},
+                    icon: Image.asset(
+                      'assets/images/fblogo.png',
+                      height: 32,
+                      width: 32,
+                    ),
+                    label: Text(
+                      'Sign in with Facebook',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    backgroundColor: Colors.white,
+                  ),
+                ),
               ],
             ),
           ),
