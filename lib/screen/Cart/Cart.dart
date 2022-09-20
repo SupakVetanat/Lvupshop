@@ -5,7 +5,6 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import 'CartModel.dart';
 
-int sum = 0; // sumPrice();
 bool _delete = false;
 List<CartModel> itemList = [
   CartModel(
@@ -21,7 +20,7 @@ List<CartModel> itemList = [
   CartModel(
       "3",
       "https://play-lh.googleusercontent.com/JkJhYyE_qikOcHmeEON1GrCLXwGlbU7pIw8VDQUHlRYnlW_fOLwAVwvn13vsqhFWnw=w526-h296-rw",
-      "test333333333333",
+      "test3333333333333333333333333333333333333333333333333",
       100)
 ];
 
@@ -33,15 +32,16 @@ class CartPage extends StatefulWidget {
 }
 
 int sumPrice() {
-  print("SUM1 : $sum");
   int _sum = 0;
-  for (int i = 0; i == itemList.length; i++) {
+  for (var i = 0; i < itemList.length; i++) {
+    print(i.toString());
     _sum = _sum + itemList[i].price;
   }
   return _sum;
 }
 
 class _CartPageState extends State<CartPage> {
+  int sum = sumPrice(); // sumPrice();
   @override
   void initState() {
     super.initState();
@@ -144,6 +144,8 @@ class _CartPageState extends State<CartPage> {
                         onPressed: () {
                           setState(() {
                             itemList.removeAt(index);
+                            sum = sumPrice();
+                            print(sum.toString());
                           });
                         },
                         index: index),
@@ -151,7 +153,49 @@ class _CartPageState extends State<CartPage> {
                     shrinkWrap: true),
               ),
             ),
-            Text("$sum")
+            FlatButton(
+                onPressed: () {},
+                child: Container(
+                  width: 0.35.sw,
+                  height: 0.1.sh,
+                  // color: Colors.lightGreen,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.r),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 6.r),
+                        child: Text('Checkout'),
+                      ),
+                      Container(
+                          height: 0.1.sh,
+                          width: 0.175.sw,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.r),
+                            color: Colors.lightGreen,
+                          ),
+                          child: Center(
+                              child: Text(
+                            "$sum",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 18.sp),
+                          )))
+                    ],
+                  ),
+                )),
           ],
         ),
       ),
@@ -204,6 +248,7 @@ class _CartPageState extends State<CartPage> {
                     children: [
                       Container(
                         width: 0.3.sw,
+                        padding: EdgeInsets.only(top: 10.r),
                         child: Flexible(
                           child: Text(
                             items.title,
@@ -216,53 +261,52 @@ class _CartPageState extends State<CartPage> {
                         ),
                       ),
                       Container(
-                        height: 80.h,
                         width: 0.3.sw,
-                        padding: EdgeInsets.all(10.r),
-                        decoration: BoxDecoration(
-                          color: Color(0XFFF9F9F9),
-                          borderRadius: BorderRadius.circular(15.r),
-                        ),
+                        padding: EdgeInsets.all(5.r),
                         child: Flexible(
                           child: Text(
                             items.description,
                             style: TextStyle(fontSize: 15.sp),
-                            maxLines: 3,
+                            maxLines: 2,
                             softWrap: false,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ),
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(0.1.r),
-                            child: Flexible(
-                              child: Text(
-                                "${items.price}  ฿",
-                                style: TextStyle(fontSize: 15.sp),
-                                maxLines: 3,
-                                softWrap: false,
-                                overflow: TextOverflow.ellipsis,
+                      Container(
+                        width: 0.3.sw,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(0.1.r),
+                              child: Flexible(
+                                child: Text(
+                                  "${items.price}  ฿",
+                                  style: TextStyle(fontSize: 15.sp),
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
-                          ),
-                          Ink(
-                              decoration: ShapeDecoration(
-                                color: Colors.red,
-                                shape: CircleBorder(),
-                              ),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color(0xffFCD9D6),
-                                  onPrimary: Colors.red,
-                                  padding: EdgeInsets.zero,
-                                  shape: const CircleBorder(),
+                            Ink(
+                                decoration: ShapeDecoration(
+                                  color: Colors.red,
+                                  shape: CircleBorder(),
                                 ),
-                                onPressed: onPressed,
-                                child: const Icon(Icons.remove),
-                              )),
-                        ],
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Color(0xffFCD9D6),
+                                    onPrimary: Colors.red,
+                                    padding: EdgeInsets.zero,
+                                    shape: const CircleBorder(),
+                                  ),
+                                  onPressed: onPressed,
+                                  child: const Icon(Icons.remove),
+                                )),
+                          ],
+                        ),
                       )
                     ],
                   )
