@@ -1,12 +1,12 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:lvup_shop/screen/Cart/Cart.dart';
 import 'package:lvup_shop/screen/home.dart';
 import 'package:lvup_shop/screen/home_cart.dart';
 import 'package:lvup_shop/screen/notification/notification_page.dart';
 import 'package:lvup_shop/screen/profile/profile_page.dart';
+import 'package:lvup_shop/screen/setting_page.dart';
 import 'package:lvup_shop/screen/wish_list/wish_list_page.dart';
 
 int currentpage = 2;
@@ -65,13 +65,8 @@ class _navBarState extends State<navBar> {
                   shape: const CircleBorder(),
                 ),
                 onPressed: () {
-                  var locale = Locale('en', 'EN');
-                  if (Get.locale.toString() == 'th_TH') {
-                    locale = Locale('en', 'EN');
-                  } else {
-                    locale = Locale('th', 'TH');
-                  }
-                  Get.updateLocale(locale);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => settingPage()));
                 },
                 child: Icon(
                   Icons.settings,

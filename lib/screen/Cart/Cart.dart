@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
+import '../CheckOut.dart';
 import 'CartModel.dart';
 
 bool _delete = false;
@@ -60,7 +62,7 @@ class _CartPageState extends State<CartPage> {
             Container(
               padding: EdgeInsets.only(top: 30, right: 250),
               child: Text(
-                "Cart",
+                "Cart".tr,
                 style: TextStyle(
                   color: Color(0xFF242F40),
                   fontSize: 40,
@@ -153,49 +155,57 @@ class _CartPageState extends State<CartPage> {
                     shrinkWrap: true),
               ),
             ),
-            FlatButton(
-                onPressed: () {},
-                child: Container(
-                  width: 0.35.sw,
-                  height: 0.1.sh,
-                  // color: Colors.lightGreen,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.r),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 6.r),
-                        child: Text('Checkout'),
-                      ),
-                      Container(
-                          height: 0.1.sh,
-                          width: 0.175.sw,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.r),
-                            color: Colors.lightGreen,
-                          ),
-                          child: Center(
-                              child: Text(
-                            "$sum",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 18.sp),
-                          )))
-                    ],
-                  ),
-                )),
+            Padding(
+              padding: const EdgeInsets.only(right: 200),
+              child: FlatButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CheckOutPage()));
+                  },
+                  child: Container(
+                    width: 0.35.sw,
+                    height: 0.07.sh,
+                    // color: Colors.lightGreen,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.r),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 6.r),
+                          child: Text('Checkout'),
+                        ),
+                        Container(
+                            height: 0.1.sh,
+                            width: 0.15.sw,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.r),
+                              color: Colors.lightGreen,
+                            ),
+                            child: Center(
+                                child: Text(
+                              "$sum",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 18.sp),
+                            )))
+                      ],
+                    ),
+                  )),
+            ),
           ],
         ),
       ),

@@ -25,11 +25,11 @@ List<CartModel> itemList = [
       100)
 ];
 
-class CheckOutPage extends StatefulWidget {
-  const CheckOutPage({Key? key}) : super(key: key);
+class PurchasePage extends StatefulWidget {
+  const PurchasePage({Key? key}) : super(key: key);
 
   @override
-  State<CheckOutPage> createState() => _CheckOutPageState();
+  State<PurchasePage> createState() => _PurchasePageState();
 }
 
 int sumPrice() {
@@ -41,7 +41,7 @@ int sumPrice() {
   return _sum;
 }
 
-class _CheckOutPageState extends State<CheckOutPage> {
+class _PurchasePageState extends State<PurchasePage> {
   int sum = sumPrice(); // sumPrice();
   @override
   void initState() {
@@ -79,12 +79,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.only(top: 30, right: 150),
+                  padding: EdgeInsets.only(top: 30, right: 80),
                   child: Text(
-                    "CheckOut".tr,
+                    "Purchase history".tr,
                     style: TextStyle(
                       color: Color(0xFF242F40),
-                      fontSize: 40,
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -106,77 +106,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         itemCount: itemList.length,
                         shrinkWrap: true),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(13.0),
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.article_outlined,
-                              size: 30,
-                            ),
-                            Text("Payment Detials")
-                          ],
-                        ),
-                        ListView.builder(
-                            itemBuilder: (context, index) => infoPayment(
-                                items: itemList[index],
-                                context: context,
-                                index: index),
-                            itemCount: itemList.length,
-                            shrinkWrap: true),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 200),
-                  child: FlatButton(
-                      onPressed: () {},
-                      child: Container(
-                        width: 0.55.sw,
-                        height: 0.07.sh,
-                        // color: Colors.lightGreen,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.r),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 6.r),
-                              child: Text('Place Order'),
-                            ),
-                            Container(
-                                height: 0.1.sh,
-                                width: 0.15.sw,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20.r),
-                                  color: Colors.lightGreen,
-                                ),
-                                child: Center(
-                                    child: Text(
-                                  "$sum",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      fontSize: 18.sp),
-                                )))
-                          ],
-                        ),
-                      )),
                 ),
               ],
             ),

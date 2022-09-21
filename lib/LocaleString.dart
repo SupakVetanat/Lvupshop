@@ -19,7 +19,16 @@ class LocaleString extends Translations {
           'Birthday': 'Birthday',
           'Submit': 'Submit',
           'Description': 'Description',
-          'Edit profile': 'Edit profile'
+          'Edit profile': 'Edit profile',
+          'Cart': 'Cart',
+          'CheckOut': 'CheckOut',
+          'Purchase history': 'Purchase history',
+          'Setting': 'Setting',
+          'Dark Mode': 'Dark Mode',
+          'Language': 'Language',
+          'Purchase history': 'Purchase history',
+          'Logout': 'Logout',
+          'Help': 'Help'
         },
         'th_TH': {
           'Login': 'เข้าสู่ระบบ',
@@ -37,7 +46,16 @@ class LocaleString extends Translations {
           'Birthday': 'วันเกิด',
           'Submit': 'ยืนยัน',
           'Description': 'คำบรรยาย',
-          'Edit profile': 'แก้ไขข้อมูล'
+          'Edit profile': 'แก้ไขข้อมูล',
+          'Cart': 'ตะกร้า',
+          'CheckOut': 'ชำระเงิน',
+          'Purchase history': 'ประวัติการชำระเงิน',
+          'Setting': 'ตั้งค่า',
+          'Dark Mode': 'โหมดกลางคืน',
+          'Language': 'ภาษา',
+          'Purchase history': 'ประวัติการซื้อ',
+          'Logout': 'ออกจากระบบ',
+          'Help': 'ช่วยเหลือ'
         }
       };
 }
