@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:lvup_shop/screen/addItem/addItem_Page.dart';
 import 'package:lvup_shop/screen/edit_profile/edit_profile_page.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -11,6 +12,15 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xff46B1C9),
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => addItemPage()));
+        },
+        child: Icon(Icons.add),
+      ),
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(color: Color(0XFFF9F9F9)),

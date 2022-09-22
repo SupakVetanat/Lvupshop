@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
 
 class Item extends Equatable {
-  final String name;
-  final String category;
-  final String imageUrl;
-  final double price;
-  final String detail;
-  final bool isRecommended;
-  final bool isPopular;
+  String name;
+  String category;
+  String imageUrl;
+  double price;
+  String detail;
+  bool isRecommended;
+  bool isPopular;
 
-  const Item(
+  Item(
       {required this.name,
       required this.category,
       required this.imageUrl,
