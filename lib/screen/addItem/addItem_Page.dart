@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,6 +27,10 @@ class _addItemPageState extends State<addItemPage> {
     setState(() {
       this._image = imageTemporary;
     });
+    Uint8List? imageBytes = await _image?.readAsBytesSync();
+    String base64Image = base64.encode(imageBytes!);
+    // print(base64Image);
+    Items.imageUrl = base64Image;
   }
 
   final formkey = GlobalKey<FormState>();
@@ -196,9 +202,10 @@ class _addItemPageState extends State<addItemPage> {
                                         onPressed: () {
                                           bool validate =
                                               formkey.currentState!.validate();
-                                          print(
-                                              "name ${Items.name} category ${Items.category} price ${Items.price} detail ${Items.detail} ");
                                           formkey.currentState?.save();
+                                          print(
+                                              "name ${Items.name} category ${Items.category} price ${Items.price} detail ${Items.detail} imageUrl ${Items.imageUrl}");
+
                                           if (validate) {
                                             formkey.currentState?.reset();
                                           }

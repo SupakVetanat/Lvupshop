@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -36,6 +38,10 @@ class _registerPageState extends State<registerPage> {
     setState(() {
       this._image = imageTemporary;
     });
+    Uint8List? imageBytes = await _image?.readAsBytesSync();
+    String base64Image = base64.encode(imageBytes!);
+    // print(base64Image);
+    profile.profileImage = base64Image;
   }
 
   bool submit = false;
@@ -186,6 +192,7 @@ class _registerPageState extends State<registerPage> {
                               8, "รหัสผ่านต้องไม่น้อยว่า 8 ตัวอักษร")
                         ]),
                         onSubmitted: (pass) {
+                          print(pass);
                           profile.password = pass!;
                         },
                       ),
@@ -212,10 +219,6 @@ class _registerPageState extends State<registerPage> {
                         ]),
                         onSubmitted: (String? pass) {
                           profile.repassword = pass!;
-                          print(profile.password +
-                              " " +
-                              profile.repassword +
-                              " ");
                         },
                       ),
                       SizedBox(
@@ -353,7 +356,7 @@ class _registerPageState extends State<registerPage> {
                               formkey.currentState?.save();
                               print("ชื่อ = ${profile.username} อีเมล = ${profile.email} " +
                                   "รหัสผ่าน = ${profile.password} ยืนยันรหัสผ่าน = ${profile.repassword} เพศ = ${profile.gender} "
-                                      "วันเกิด = ${profile.birth}");
+                                      "วันเกิด = ${profile.birth} รูป ${profile.profileImage}");
                               setState(() {
                                 submit = true;
                               });

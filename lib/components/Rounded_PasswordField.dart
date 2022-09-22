@@ -27,7 +27,7 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
         width: 290.w,
         child: TextFormField(
           obscureText: _obscureText,
-          onSaved: widget.onSubmitted,
+          onChanged: widget.onSubmitted,
           validator: widget.validator,
           decoration: InputDecoration(
               contentPadding: EdgeInsets.all(0),

@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -34,6 +36,10 @@ class _editProfilePageState extends State<editProfilePage> {
     setState(() {
       this._image = imageTemporary;
     });
+    Uint8List? imageBytes = await _image?.readAsBytesSync();
+    String base64Image = base64.encode(imageBytes!);
+    // print(base64Image);
+    profile.profileImage = base64Image;
   }
 
   final formkey = GlobalKey<FormState>();
@@ -300,6 +306,15 @@ class _editProfilePageState extends State<editProfilePage> {
                             padding: EdgeInsets.all(15.r),
                             onPressed: () {
                               profile.gender = _radioValue;
+                              formkey.currentState?.save();
+                              print("ชื่อ = ${profile.username} อีเมล = ${profile.email} " +
+                                  "เพศ = ${profile.gender} "
+                                      "วันเกิด = ${profile.birth} รูป ${profile.profileImage}");
+                              setState(() {});
+                              bool validate = formkey.currentState!.validate();
+                              if (validate && profile.birth != '') {
+                                formkey.currentState?.reset();
+                              }
                             },
                             child: Text(
                               "Edit profile".tr,
