@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/src/size_extension.dart';
 import 'package:lvup_shop/components/Rounded_TextFormField.dart';
 import 'package:lvup_shop/components/validators.dart';
+import 'package:lvup_shop/models/Profile_model.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -12,8 +13,14 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   final formkey = GlobalKey<FormState>();
-  Profile profile =
-      Profile(email: ' ', password: ' ', name: ' ', repassword: ' ', birth: '');
+  Profile profile = Profile(
+      email: ' ',
+      password: ' ',
+      username: ' ',
+      repassword: ' ',
+      birth: '',
+      gender: '',
+      profileImage: '');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +83,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     RoundedTextFormField(
                       icon: Icons.email,
                       onSubmitted: (String? name) {
-                        profile.name = name!;
+                        profile.username = name!;
                       },
                       validator: Validators.required("กรุณากรอกข้อมูล"),
                     ),
@@ -106,18 +113,4 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       ),
     );
   }
-}
-
-class Profile {
-  String email;
-  String password;
-  String repassword;
-  String name;
-  String birth;
-  Profile(
-      {required this.email,
-      required this.password,
-      required this.repassword,
-      required this.name,
-      required this.birth});
 }

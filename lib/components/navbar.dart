@@ -1,6 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lvup_shop/models/Profile_model.dart';
 import 'package:lvup_shop/screen/Cart/Cart.dart';
 import 'package:lvup_shop/screen/home.dart';
 import 'package:lvup_shop/screen/home_cart.dart';
@@ -10,16 +11,14 @@ import 'package:lvup_shop/screen/setting_page.dart';
 import 'package:lvup_shop/screen/wish_list/wish_list_page.dart';
 
 int currentpage = 2;
-final screen = [
-  WishListPage(),
-  HomeCart(), //shop
-  Home(), //.ใส่ home
-  CartPage(),
-  ProfilePage(),
-];
+Profile? userProfile;
 
 class navBar extends StatefulWidget {
-  navBar({Key? key}) : super(key: key);
+  Profile? user;
+  navBar(
+    this.user, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<navBar> createState() => _navBarState();
@@ -27,7 +26,21 @@ class navBar extends StatefulWidget {
 
 class _navBarState extends State<navBar> {
   @override
+  void initState() {
+    super.initState();
+    userProfile = widget.user;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var screen = [
+      WishListPage(),
+      HomeCart(), //shop
+      Home(), //.ใส่ home
+      CartPage(),
+      ProfilePage(userProfile),
+    ];
+    print("navBar userProfile ${userProfile?.username}");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff46B1C9),
@@ -105,8 +118,4 @@ class _navBarState extends State<navBar> {
       body: screen[currentpage],
     );
   }
-}
-
-Widget _buildBody() {
-  return screen[currentpage];
 }

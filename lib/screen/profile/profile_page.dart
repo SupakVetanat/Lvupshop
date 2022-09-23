@@ -1,13 +1,32 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:lvup_shop/models/Profile_model.dart';
 import 'package:lvup_shop/screen/addItem/addItem_Page.dart';
 import 'package:lvup_shop/screen/edit_profile/edit_profile_page.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+Profile? userProfile;
+String img64 = '';
+
+class ProfilePage extends StatefulWidget {
+  Profile? user;
+  ProfilePage(this.user, {Key? key}) : super(key: key);
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+    userProfile = widget.user;
+    img64 = userProfile?.profileImage ?? img64;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +93,10 @@ class ProfilePage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 15),
                       child: CircleAvatar(
                           radius: 0.2.sw, // Image radius
-                          backgroundImage: NetworkImage(
-                            'https://pbs.twimg.com/media/FYhq1n0XwAAqKil?format=jpg&name=medium',
-                          )),
+                          backgroundImage: img64 == ''
+                              ? AssetImage('assets/images/user_img.jpg')
+                              : MemoryImage(base64.decode(img64))
+                                  as ImageProvider),
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -86,12 +106,12 @@ class ProfilePage extends StatelessWidget {
                           height: 45.w,
                         ),
                         Text(
-                          "Username",
+                          "${widget.user?.username}",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 27.sp),
                         ),
                         Text(
-                          "user@gmail.com",
+                          "${widget.user?.email}",
                           style: TextStyle(fontSize: 13.sp, color: Colors.grey),
                         ),
                         SizedBox(
@@ -101,7 +121,7 @@ class ProfilePage extends StatelessWidget {
                           width: 0.4.sw,
                           child: Flexible(
                               child: Text(
-                            "descriptionnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+                            "${widget.user?.username}",
                             maxLines: 3,
                             softWrap: false,
                             overflow: TextOverflow.ellipsis,

@@ -1,14 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_screenutil/src/size_extension.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 import 'package:lvup_shop/components/Rounded_PasswordField.dart';
 import 'package:lvup_shop/components/Rounded_TextFormField.dart';
 import 'package:lvup_shop/components/navbar.dart';
 import 'package:lvup_shop/components/validators.dart';
+import 'package:lvup_shop/models/Profile_model.dart';
 
 import 'Forgot_password.dart';
 import 'register/register_page.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -19,11 +23,19 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   Map? _userData;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  // bool _isLoggedIn = false;
+  // Map _userObj = {};
   final formkey = GlobalKey<FormState>();
-  Profile profile =
-      Profile(email: ' ', password: ' ', name: ' ', repassword: ' ', birth: '');
-  bool _isLoggedIn = false;
-  Map _userObj = {};
+  Profile profile = Profile(
+      email: ' ',
+      password: ' ',
+      repassword: ' ',
+      birth: '',
+      username: '',
+      profileImage: '',
+      gender: '',
+      description: '');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +78,7 @@ class _LoginState extends State<Login> {
                     RoundedTextFormField(
                       icon: Icons.email,
                       onSubmitted: (String? name) {
-                        profile.name = name!;
+                        profile.username = name!;
                       },
                       validator: Validators.required("กรุณากรอกข้อมูล"),
                     ),
@@ -136,7 +148,7 @@ class _LoginState extends State<Login> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => navBar(),
+                            builder: (context) => navBar(profile),
                           ));
                     },
                     child: Container(
@@ -177,7 +189,9 @@ class _LoginState extends State<Login> {
 
                 Center(
                   child: FloatingActionButton.extended(
-                    onPressed: () {},
+                    onPressed: () {
+                      loginUI();
+                    },
                     icon: Image.asset(
                       'assets/images/googlelogo.png',
                       height: 35,
@@ -200,6 +214,7 @@ class _LoginState extends State<Login> {
                     onPressed: () async {
                       final result = await FacebookAuth.i
                           .login(permissions: ["public_profile", "email"]);
+                      print("result.status: ${result.status}");
 
                       if (result.status == LoginStatus.success) {
                         final requestData = await FacebookAuth.i.getUserData(
@@ -229,18 +244,57 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
+  loginUI() async {
+    // Provider.of<GoogleSignInController>(context, listen: false).login();
+    // await (Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => navBar(),
+    //     )));
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: [
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+    GoogleSignInAccount? user = await _googleSignIn.signIn();
+
+    if (user != null) {
+      print("user ${user}");
+      var img64 = await networkImageToBase64(user.photoUrl);
+      profile = Profile(
+          email: user.email,
+          password: '',
+          username: user.displayName,
+          repassword: '',
+          birth: '',
+          profileImage: img64,
+          gender: '',
+          description: '');
+      print(profile.profileImage);
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => navBar(profile)));
+    }
+
+    // GoogleSignInAuthentication? userAuth = await user?.authentication;
+
+    // await _auth.signInWithCredential(GoogleAuthProvider.getCredential(
+    //     idToken: userAuth?.idToken, accessToken: userAuth?.accessToken));
+    // checkAuth(context); // after success route to home.
+  }
+
+  // Future checkAuth(BuildContext context) async {
+  //   User user = await _auth.currentUser!;
+  //   if (user != null) {
+  //     print("Already singed-in with");
+  //     Navigator.pushReplacement(
+  //         context, MaterialPageRoute(builder: (context) => navBar()));
+  //   }
+  // }
 }
 
-class Profile {
-  String email;
-  String password;
-  String repassword;
-  String name;
-  String birth;
-  Profile(
-      {required this.email,
-      required this.password,
-      required this.repassword,
-      required this.name,
-      required this.birth});
+Future<String?> networkImageToBase64(String? imageUrl) async {
+  http.Response response = await http.get(Uri.parse(imageUrl!));
+  final bytes = response.bodyBytes;
+  return (bytes != null ? base64Encode(bytes) : null);
 }

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "999853460970",
+    "project_id": "lvupshop-53d3a",
+    "storage_bucket": "lvupshop-53d3a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999853460970:android:30cb7d1e03d26c87e37693",
+        "android_client_info": {
+          "package_name": "com.example.lvup_shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "999853460970-kfva12dieln1kbsldinntin3ehuv3kfl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lvup_shop",
+            "certificate_hash": "90f372e76be11b07f8b4170fd19cdf3ca3ddda6c"
+          }
+        },
+        {
+          "client_id": "999853460970-8iodn9905uagi3mgha9vmt850jr735vr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCC4mkkqGx_ljHB15i2d2zXa6BNWVGEm8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999853460970-8iodn9905uagi3mgha9vmt850jr735vr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
