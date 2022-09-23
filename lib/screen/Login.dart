@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_screenutil/src/size_extension.dart';
 import 'package:lvup_shop/components/Rounded_PasswordField.dart';
 import 'package:lvup_shop/components/Rounded_TextFormField.dart';
@@ -7,6 +8,7 @@ import 'package:lvup_shop/components/validators.dart';
 
 import 'Forgot_password.dart';
 import 'register/register_page.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -16,9 +18,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  Map? _userData;
   final formkey = GlobalKey<FormState>();
   Profile profile =
       Profile(email: ' ', password: ' ', name: ' ', repassword: ' ', birth: '');
+  bool _isLoggedIn = false;
+  Map _userObj = {};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,8 +180,8 @@ class _LoginState extends State<Login> {
                     onPressed: () {},
                     icon: Image.asset(
                       'assets/images/googlelogo.png',
-                      height: 32,
-                      width: 50,
+                      height: 35,
+                      width: 65,
                     ),
                     label: Text(
                       'Sign in with Google',
@@ -192,11 +197,23 @@ class _LoginState extends State<Login> {
 
                 Center(
                   child: FloatingActionButton.extended(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final result = await FacebookAuth.i
+                          .login(permissions: ["public_profile", "email"]);
+
+                      if (result.status == LoginStatus.success) {
+                        final requestData = await FacebookAuth.i.getUserData(
+                          fields: "email, name",
+                        );
+                        setState(() {
+                          _userData = requestData;
+                        });
+                      }
+                    },
                     icon: Image.asset(
                       'assets/images/fblogo.png',
                       height: 32,
-                      width: 32,
+                      width: 50,
                     ),
                     label: Text(
                       'Sign in with Facebook',
