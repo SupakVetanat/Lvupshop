@@ -21,21 +21,59 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
+var _futureProfile;
+
+loginProfile(String email, String password, context) async {
+  _onLoading(context);
+  var url =
+      Uri.parse('https://lvupshopapi.herokuapp.com/login/${email}/${password}');
+  final response = await http.get(url);
+  print(response.statusCode);
+  if (response.statusCode == 200) {
+    Navigator.pop(context)
+        // If the server did return a 201 CREATED response,
+        // then parse the JSON.
+        // print(jsonDecode(response.body));
+        ;
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              navBar(Profile.fromJson(jsonDecode(response.body)[0])),
+        ));
+  } else {
+    Navigator.pop(context);
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text("กรุณาลองใหม่"),
+        content: Text("Email หรือ Password ไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง"),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: Text('OK'))
+        ],
+      ),
+    );
+  }
+}
+
+Profile profile = Profile(
+    email: ' ',
+    password: ' ',
+    repassword: ' ',
+    birth: '',
+    username: '',
+    profileImage: '',
+    gender: '',
+    description: '');
+
 class _LoginState extends State<Login> {
   Map? _userData;
   // final FirebaseAuth _auth = FirebaseAuth.instance;
   // bool _isLoggedIn = false;
   // Map _userObj = {};
   final formkey = GlobalKey<FormState>();
-  Profile profile = Profile(
-      email: ' ',
-      password: ' ',
-      repassword: ' ',
-      birth: '',
-      username: '',
-      profileImage: '',
-      gender: '',
-      description: '');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,61 +98,57 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   height: 35.h,
                 ),
-
-                Column(
-                  children: [
-                    SizedBox(
-                        width: 0.74.sw,
-                        child: Text(
-                          "EMAIL",
-                          style: TextStyle(
-                              fontSize: 20.sp,
-                              color: Color(0xFF242F40).withAlpha(950)),
-                          textAlign: TextAlign.left,
-                        )),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    RoundedTextFormField(
-                      icon: Icons.email,
-                      onSubmitted: (String? name) {
-                        profile.username = name!;
-                      },
-                      validator: Validators.required("กรุณากรอกข้อมูล"),
-                    ),
-                  ],
-                ), //emailfield
-
-                SizedBox(
-                  height: 7.h,
+                Form(
+                  key: formkey,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                          width: 0.74.sw,
+                          child: Text(
+                            "EMAIL",
+                            style: TextStyle(
+                                fontSize: 20.sp,
+                                color: Color(0xFF242F40).withAlpha(950)),
+                            textAlign: TextAlign.left,
+                          )),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      RoundedTextFormField(
+                        icon: Icons.email,
+                        onSubmitted: (String? email) {
+                          profile.email = email!;
+                        },
+                        validator: Validators.required("กรุณากรอกข้อมูล"),
+                      ),
+                      SizedBox(
+                        height: 7.h,
+                      ),
+                      SizedBox(
+                          width: 0.74.sw,
+                          child: Text(
+                            "PASSWORD",
+                            style: TextStyle(
+                                fontSize: 20.sp,
+                                color: Color(0xFF242F40).withAlpha(950)),
+                            textAlign: TextAlign.left,
+                          )),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      RoundedPasswordField(
+                        validator: Validators.compose([
+                          Validators.required("กรุณากรอกข้อมูล"),
+                          Validators.minLength(
+                              8, "รหัสผ่านต้องไม่น้อยว่า 8 ตัวอักษร"),
+                        ]),
+                        onSubmitted: (String? pass) {
+                          profile.password = pass!;
+                        },
+                      ),
+                    ],
+                  ), //passwordfield
                 ),
-
-                Column(
-                  children: [
-                    SizedBox(
-                        width: 0.74.sw,
-                        child: Text(
-                          "PASSWORD",
-                          style: TextStyle(
-                              fontSize: 20.sp,
-                              color: Color(0xFF242F40).withAlpha(950)),
-                          textAlign: TextAlign.left,
-                        )),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    RoundedPasswordField(
-                      validator: Validators.compose([
-                        Validators.required("กรุณากรอกข้อมูล"),
-                        Validators.minLength(
-                            8, "รหัสผ่านต้องไม่น้อยว่า 8 ตัวอักษร"),
-                      ]),
-                      onSubmitted: (String? pass) {
-                        profile.repassword = pass!;
-                      },
-                    ),
-                  ],
-                ), //passwordfield
 
                 TextButton(
                     onPressed: () {
@@ -145,11 +179,12 @@ class _LoginState extends State<Login> {
 
                 TextButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => navBar(profile),
-                          ));
+                      formkey.currentState?.save();
+                      bool validate = formkey.currentState!.validate();
+                      if (validate) {
+                        formkey.currentState?.reset();
+                        loginProfile(profile.email, profile.password, context);
+                      }
                     },
                     child: Container(
                       width: 160.w,
@@ -297,4 +332,30 @@ Future<String?> networkImageToBase64(String? imageUrl) async {
   http.Response response = await http.get(Uri.parse(imageUrl!));
   final bytes = response.bodyBytes;
   return (bytes != null ? base64Encode(bytes) : null);
+}
+
+void _onLoading(context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return Dialog(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(
+                width: 10.w,
+              ),
+              Text("Loading"),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

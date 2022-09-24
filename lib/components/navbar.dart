@@ -106,7 +106,7 @@ class _navBarState extends State<navBar> {
             icon: Icons.person,
           ),
         ],
-        initialActiveIndex: 2, //optional, default as 0
+        initialActiveIndex: currentpage, //optional, default as 0
         disableDefaultTabController: false,
         onTap: (int i) => setState(() {
           currentpage = i;

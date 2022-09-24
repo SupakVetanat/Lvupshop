@@ -6,11 +6,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:lvup_shop/components/Rounded_PasswordField.dart';
 import 'package:lvup_shop/components/Rounded_TextFormField.dart';
+import 'package:lvup_shop/components/navbar.dart';
 import 'package:lvup_shop/components/validators.dart';
 import 'package:lvup_shop/models/Profile_model.dart';
+
+Future<Profile> createProfile(String username, String birth, String email,
+    String gender, String profileImage, String password) async {
+  final response = await http.post(
+    Uri.parse('https://lvupshopapi.herokuapp.com/regis'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'username': username,
+      'birth': birth,
+      'email': email,
+      'gender': gender,
+      'profileImage': profileImage,
+      'password': password,
+    }),
+  );
+
+  if (response.statusCode == 201) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    return Profile.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to create album.');
+  }
+}
 
 class registerPage extends StatefulWidget {
   const registerPage({Key? key}) : super(key: key);
@@ -18,6 +48,8 @@ class registerPage extends StatefulWidget {
   @override
   State<registerPage> createState() => _registerPageState();
 }
+
+Future<Profile>? _futureProfile;
 
 class _registerPageState extends State<registerPage> {
   String _radioValue = "male";
@@ -364,12 +396,18 @@ class _registerPageState extends State<registerPage> {
                               if (validate && profile.birth != '') {
                                 formkey.currentState?.reset();
                                 submit = false;
+                                _futureProfile = createProfile(
+                                    profile.username ?? '',
+                                    profile.birth,
+                                    profile.email,
+                                    profile.gender,
+                                    profile.profileImage ?? '',
+                                    profile.password);
 
-                                // Navigator.push(context,
-                                //     MaterialPageRoute(builder: (context) {
-                                //       return loginPage();
-                                //     }))
-                                ;
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return navBar(profile);
+                                }));
                               }
                             },
                             child: Text(

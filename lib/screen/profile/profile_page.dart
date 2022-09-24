@@ -81,7 +81,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => editProfilePage()));
+                                  builder: (context) =>
+                                      editProfilePage(userProfile)));
                         },
                         child: const Icon(Icons.create_rounded),
                       )),
@@ -152,46 +153,83 @@ class _ProfilePageState extends State<ProfilePage> {
                               onPressed: () {},
                               child: const Icon(Icons.chat_rounded),
                             )),
-                        Ink(
-                            decoration: ShapeDecoration(
-                              color: Color(0xff46B1C9),
-                              shape: CircleBorder(),
-                            ),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Color(0xffE9F6DC),
-                                onPrimary: Colors.lightGreen,
-                                padding: EdgeInsets.zero,
-                                shape: const CircleBorder(),
-                              ),
-                              onPressed: () {},
-                              child: const Icon(Icons.check_rounded),
-                            )),
-                        Icon(
-                          Icons.star_rounded,
-                          color: Color(0xffEEC643),
-                          size: 30.h,
-                        ),
-                        Icon(
-                          Icons.star_rounded,
-                          color: Color(0xffEEC643),
-                          size: 30.h,
-                        ),
-                        Icon(
-                          Icons.star_rounded,
-                          color: Color(0xffEEC643),
-                          size: 30.h,
-                        ),
-                        Icon(
-                          Icons.star_rounded,
-                          color: Color(0xffEEC643),
-                          size: 30.h,
-                        ),
-                        Icon(
-                          Icons.star_rounded,
-                          color: Color(0xffEEC643),
-                          size: 30.h,
-                        ),
+                        userProfile?.guarantee == true
+                            ? Ink(
+                                decoration: ShapeDecoration(
+                                  color: Color(0xff46B1C9),
+                                  shape: CircleBorder(),
+                                ),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Color(0xffE9F6DC),
+                                    onPrimary: Colors.lightGreen,
+                                    padding: EdgeInsets.zero,
+                                    shape: const CircleBorder(),
+                                  ),
+                                  onPressed: () {},
+                                  child: const Icon(Icons.check_rounded),
+                                ))
+                            : SizedBox(),
+                        if ((userProfile?.star ?? 0) >= 5)
+                          Icon(
+                            Icons.star_rounded,
+                            color: Color(0xffEEC643),
+                            size: 30.h,
+                          )
+                        else
+                          Icon(
+                            Icons.star_rounded,
+                            color: Colors.grey,
+                            size: 30.h,
+                          ),
+                        if ((userProfile?.star ?? 0) >= 4)
+                          Icon(
+                            Icons.star_rounded,
+                            color: Color(0xffEEC643),
+                            size: 30.h,
+                          )
+                        else
+                          Icon(
+                            Icons.star_rounded,
+                            color: Colors.grey,
+                            size: 30.h,
+                          ),
+                        if ((userProfile?.star ?? 0) >= 3)
+                          Icon(
+                            Icons.star_rounded,
+                            color: Color(0xffEEC643),
+                            size: 30.h,
+                          )
+                        else
+                          Icon(
+                            Icons.star_rounded,
+                            color: Colors.grey,
+                            size: 30.h,
+                          ),
+                        if ((userProfile?.star ?? 0) > 2)
+                          Icon(
+                            Icons.star_rounded,
+                            color: Color(0xffEEC643),
+                            size: 30.h,
+                          )
+                        else
+                          Icon(
+                            Icons.star_rounded,
+                            color: Colors.grey,
+                            size: 30.h,
+                          ),
+                        if ((userProfile?.star ?? 0) > 1)
+                          Icon(
+                            Icons.star_rounded,
+                            color: Color(0xffEEC643),
+                            size: 30.h,
+                          )
+                        else
+                          Icon(
+                            Icons.star_rounded,
+                            color: Colors.grey,
+                            size: 30.h,
+                          ),
                         SizedBox(
                           width: 20.w,
                         )

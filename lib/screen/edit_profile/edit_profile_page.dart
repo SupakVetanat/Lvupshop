@@ -8,17 +8,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lvup_shop/components/Rounded_TextFormField.dart';
+import 'package:lvup_shop/components/navbar.dart';
 import 'package:lvup_shop/models/Profile_model.dart';
 
+Profile? userProfile;
+String img64 = '';
+
 class editProfilePage extends StatefulWidget {
-  const editProfilePage({Key? key}) : super(key: key);
+  Profile? user;
+  editProfilePage(this.user, {Key? key}) : super(key: key);
 
   @override
   State<editProfilePage> createState() => _editProfilePageState();
 }
 
 class _editProfilePageState extends State<editProfilePage> {
-  String _radioValue = "male";
+  @override
+  void initState() {
+    super.initState();
+    userProfile = widget.user;
+    img64 = userProfile?.profileImage ?? img64;
+  }
+
+  String _radioValue = userProfile?.gender ?? 'male';
 
   void _handleRadioValueChange(String value) {
     setState(() {
@@ -39,18 +51,10 @@ class _editProfilePageState extends State<editProfilePage> {
     Uint8List? imageBytes = await _image?.readAsBytesSync();
     String base64Image = base64.encode(imageBytes!);
     // print(base64Image);
-    profile.profileImage = base64Image;
+    userProfile?.profileImage = base64Image;
   }
 
   final formkey = GlobalKey<FormState>();
-  Profile profile = Profile(
-      profileImage: '',
-      email: ' ',
-      password: ' ',
-      username: ' ',
-      repassword: ' ',
-      birth: '',
-      gender: 'male');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,9 +106,7 @@ class _editProfilePageState extends State<editProfilePage> {
                               backgroundImage: _image != null
                                   ? FileImage(File(_image!.path))
                                       as ImageProvider
-                                  : AssetImage(
-                                      'assets/images/user_img.jpg',
-                                    )),
+                                  : MemoryImage(base64.decode(img64))),
                           Positioned.fill(
                             child: Align(
                               alignment: Alignment.bottomRight,
@@ -141,9 +143,10 @@ class _editProfilePageState extends State<editProfilePage> {
                             textAlign: TextAlign.left,
                           )),
                       RoundedTextFormField(
+                        initialValue: userProfile?.username,
                         icon: Icons.person,
                         onSubmitted: (String? name) {
-                          profile.username = name!;
+                          userProfile?.username = name!;
                         },
                         // validator: Validators.required("กรุณากรอกข้อมูล"),
                       ),
@@ -158,9 +161,10 @@ class _editProfilePageState extends State<editProfilePage> {
                             textAlign: TextAlign.left,
                           )),
                       RoundedTextFormField(
+                        initialValue: userProfile?.email,
                         icon: Icons.mail_rounded,
                         onSubmitted: (String? email) {
-                          profile.email = email!;
+                          userProfile?.email = email!;
                         },
                         // validator: Validators.required("กรุณากรอกข้อมูล"),
                       ),
@@ -226,13 +230,6 @@ class _editProfilePageState extends State<editProfilePage> {
                             style: TextStyle(fontSize: 16.sp),
                             textAlign: TextAlign.left,
                           )),
-                      // RoundedTextFormField(
-                      //   icon: Icons.calendar_today_rounded,
-                      //   onSubmitted: (String? email) {
-                      //     profile.email = email!;
-                      //   },
-                      //   // validator: Validators.required("กรุณากรอกข้อมูล"),
-                      // ),
                       Container(
                         width: 0.8.sw,
                         height: 35.h,
@@ -256,9 +253,9 @@ class _editProfilePageState extends State<editProfilePage> {
                                 print('change $date');
                               }, onConfirm: (date) {
                                 setState(() {
-                                  profile.birth =
+                                  userProfile?.birth =
                                       "${date.day}-${date.month}-${date.year}";
-                                  print(profile.birth);
+                                  print(userProfile?.birth);
                                 });
                               },
                                   currentTime: DateTime.now(),
@@ -273,11 +270,10 @@ class _editProfilePageState extends State<editProfilePage> {
                                 SizedBox(
                                   width: 15.w,
                                 ),
-                                Text("${profile.birth}")
+                                Text("${userProfile?.birth}")
                               ],
                             )),
                       ),
-
                       SizedBox(
                         height: 10.h,
                       ),
@@ -290,11 +286,11 @@ class _editProfilePageState extends State<editProfilePage> {
                         ),
                       ),
                       RoundedTextFormField(
+                        initialValue: userProfile?.description,
                         icon: Icons.edit,
-                        onSubmitted: (String? email) {
-                          profile.email = email!;
+                        onSubmitted: (String? description) {
+                          userProfile?.description = description!;
                         },
-                        // validator: Validators.required("กรุณากรอกข้อมูล"),
                       ),
                       SizedBox(
                         height: 10.h,
@@ -305,15 +301,20 @@ class _editProfilePageState extends State<editProfilePage> {
                             color: Color(0xffeec643),
                             padding: EdgeInsets.all(15.r),
                             onPressed: () {
-                              profile.gender = _radioValue;
+                              userProfile?.gender = _radioValue;
                               formkey.currentState?.save();
-                              print("ชื่อ = ${profile.username} อีเมล = ${profile.email} " +
-                                  "เพศ = ${profile.gender} "
-                                      "วันเกิด = ${profile.birth} รูป ${profile.profileImage}");
+                              print("ชื่อ = ${userProfile?.username} อีเมล = ${userProfile?.email} " +
+                                  "เพศ = ${userProfile?.gender} "
+                                      "วันเกิด = ${userProfile?.birth} รูป ${userProfile?.profileImage}");
                               setState(() {});
                               bool validate = formkey.currentState!.validate();
-                              if (validate && profile.birth != '') {
+                              if (validate && userProfile?.birth != '') {
                                 formkey.currentState?.reset();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            navBar(userProfile)));
                               }
                             },
                             child: Text(
