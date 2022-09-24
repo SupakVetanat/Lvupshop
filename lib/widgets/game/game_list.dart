@@ -32,7 +32,7 @@ class GameList extends StatelessWidget {
         ), //Container
 
         Positioned(
-          top: 85.h,
+          top: 90.h,
           left: 3.w,
           child: Padding(
             padding: EdgeInsets.all(5.r),

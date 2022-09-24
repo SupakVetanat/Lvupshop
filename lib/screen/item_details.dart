@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/src/size_extension.dart';
 import 'package:lvup_shop/models/models.dart';
+import 'package:lvup_shop/screen/chat.dart';
 
 class ItemDetail extends StatelessWidget {
   final Item item;
@@ -206,7 +207,12 @@ class ItemDetail extends StatelessWidget {
                                 color: Color(0xffEEC643),
                                 borderRadius: BorderRadius.circular(40.r)),
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ChatRoom()));
+                              },
                               iconSize: 23,
                               icon: Icon(Icons.sms),
                               color: Color(0xffFCF4D9),
