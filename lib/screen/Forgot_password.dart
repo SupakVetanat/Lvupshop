@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/src/size_extension.dart';
 import 'package:lvup_shop/components/Rounded_TextFormField.dart';
@@ -12,15 +13,39 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
-  final formkey = GlobalKey<FormState>();
-  Profile profile = Profile(
-      email: ' ',
-      password: ' ',
-      username: ' ',
-      repassword: ' ',
-      birth: '',
-      gender: '',
-      profileImage: '');
+  final _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  Future passwordReset() async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: _emailController.text.trim());
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text('Password reset link check your email'),
+          );
+        },
+      );
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(e.message.toString()),
+          );
+        },
+      );
+    }
+  } //passreset
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,31 +105,65 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     SizedBox(
                       height: 5.h,
                     ),
-                    RoundedTextFormField(
-                      icon: Icons.email,
-                      onSubmitted: (String? name) {
-                        profile.username = name!;
-                      },
-                      validator: Validators.required("กรุณากรอกข้อมูล"),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: TextField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xFF242F40),
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          hintText: 'Enter your Email',
+                          fillColor: Colors.grey[200],
+                          filled: true,
+                        ),
+                      ),
+                    ), //padding
+
+                    SizedBox(height: 40.h),
+
+                    MaterialButton(
+                      onPressed: passwordReset,
+                      child: Container(
+                        width: 160.w,
+                        height: 50.h,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color(0xffEEC643)),
+                        child: Center(
+                          child: Text(
+                            'Submid',
+                            style: TextStyle(color: Colors.white, fontSize: 28),
+                          ),
+                        ),
+                      ),
+                      color: Color(0xffEEC643),
                     ),
                   ],
                 ),
-                SizedBox(height: 40.h),
-                TextButton(
-                    onPressed: () {},
-                    child: Container(
-                      width: 160.w,
-                      height: 50.h,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Color(0xffEEC643)),
-                      child: Center(
-                        child: Text(
-                          "Submit",
-                          style: TextStyle(color: Colors.white, fontSize: 28),
-                        ),
-                      ),
-                    )),
+                //SizedBox(height: 40.h),
+                // TextButton(
+                //     onPressed: () {},
+                //     child: Container(
+                //       width: 160.w,
+                //       height: 50.h,
+                //       decoration: BoxDecoration(
+                //           borderRadius: BorderRadius.circular(10),
+                //           color: Color(0xffEEC643)),
+                //       child: Center(
+                //         child: Text(
+                //           "Submit",
+                //           style: TextStyle(color: Colors.white, fontSize: 28),
+                //         ),
+                //       ),
+                //     )),
                 SizedBox(height: 100.h),
               ],
             ),
