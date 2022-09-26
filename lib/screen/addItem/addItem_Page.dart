@@ -5,13 +5,17 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:lvup_shop/components/Rounded_TextFormField.dart';
+import 'package:lvup_shop/components/navbar.dart';
 import 'package:lvup_shop/components/validators.dart';
+import 'package:lvup_shop/models/Profile_model.dart';
 import 'package:lvup_shop/models/item_model.dart';
 
 class addItemPage extends StatefulWidget {
-  const addItemPage({Key? key}) : super(key: key);
+  Profile user;
+  addItemPage(this.user, {Key? key}) : super(key: key);
 
   @override
   State<addItemPage> createState() => _addItemPageState();
@@ -45,6 +49,7 @@ class _addItemPageState extends State<addItemPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.user.username);
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff46B1C9),
@@ -208,6 +213,14 @@ class _addItemPageState extends State<addItemPage> {
 
                                           if (validate) {
                                             formkey.currentState?.reset();
+                                            createItem(
+                                                "${widget.user.username}",
+                                                Items.price,
+                                                Items.name,
+                                                Items.category,
+                                                Items.imageUrl,
+                                                Items.detail,
+                                                context);
                                           }
                                         },
                                         child: Text(
@@ -221,5 +234,61 @@ class _addItemPageState extends State<addItemPage> {
                                     height: 20.h,
                                   ),
                                 ])))))));
+  }
+
+  createItem(String username, double price, String name, String category,
+      String image, String detail, context) async {
+    Map<String, dynamic> body = {
+      'username': username,
+      'name': name,
+      'category': category,
+      "price": price,
+      'image': image,
+      'detail': detail,
+    };
+    final response = await http.post(
+      Uri.parse('https://lvupshopapi.herokuapp.com/order/post'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(body),
+    );
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print(jsonDecode(response.body));
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text("ลงขายสินค้าสำเร็จ"),
+          content: Text("ระบบได้ทำการบันทึกรายการสินค้าของท่านเรียบร้อยแล้ว"),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => navBar(widget.user))),
+                child: Text('OK'))
+          ],
+        ),
+      );
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text("กรุณาลองใหม่"),
+          content: Text("เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context), child: Text('OK'))
+          ],
+        ),
+      );
+      throw Exception('Failed to create Item.');
+    }
   }
 }

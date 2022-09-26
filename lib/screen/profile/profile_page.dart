@@ -5,12 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:http/http.dart' as http;
 import 'package:lvup_shop/models/Profile_model.dart';
 import 'package:lvup_shop/screen/addItem/addItem_Page.dart';
 import 'package:lvup_shop/screen/edit_profile/edit_profile_page.dart';
 
 Profile? userProfile;
 String img64 = '';
+bool isLoading = true;
+bool isNone = false;
+List Itemdata = [];
 
 class ProfilePage extends StatefulWidget {
   Profile? user;
@@ -21,11 +25,31 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  getItemUser(String username, context) async {
+    // _onLoading(context);
+    var url =
+        Uri.parse('https://lvupshopapi.herokuapp.com/order/user/${username}');
+    final response = await http.get(url);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      setState(() {
+        isLoading = false;
+        Itemdata = jsonDecode(utf8.decode(response.bodyBytes));
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+        isNone = true;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     userProfile = widget.user;
     img64 = userProfile?.profileImage ?? img64;
+    getItemUser("${userProfile?.username}", context);
   }
 
   @override
@@ -36,7 +60,9 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: Color(0xff46B1C9),
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => addItemPage()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => addItemPage(userProfile!)));
         },
         child: Icon(Icons.add),
       ),
@@ -238,16 +264,30 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ]),
+              SizedBox(
+                height: 20.h,
+              ),
               Container(
                 width: 1.sw,
-                child: AnimationLimiter(
-                  child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (_, index) => profileItem(index: index),
-                      itemCount: 6,
-                      shrinkWrap: true),
-                ),
+                child: isLoading
+                    ? Center(
+                        child: Container(
+                            width: 0.2.sw,
+                            height: 0.2.sw,
+                            child: CircularProgressIndicator()))
+                    : AnimationLimiter(
+                        child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (_, index) => profileItem(
+                                index: index, Item: Itemdata[index]),
+                            itemCount: Itemdata.length,
+                            shrinkWrap: true),
+                      ),
               ),
+              SizedBox(
+                height: 20.h,
+              ),
+              isNone ? Center(child: Text('ไม่พบข้อมูล')) : SizedBox()
             ],
           ),
         ),
@@ -256,7 +296,12 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-Widget profileItem({required int index}) {
+Widget profileItem({required int index, Item}) {
+  var title = Item['name'];
+  var price = Item['price'];
+  var description = Item['detail'];
+  String imge = Item['image'];
+
   return AnimationConfiguration.staggeredList(
     position: index,
     duration: const Duration(milliseconds: 500),
@@ -283,11 +328,11 @@ Widget profileItem({required int index}) {
             ClipRRect(
               borderRadius: BorderRadius.circular(30.r),
               child: SizedBox.fromSize(
-                size: Size.fromRadius(0.25.sw), // Image radius
-                child: Image.network(
-                    'https://pbs.twimg.com/media/FbBa2CyXkAAr_19?format=jpg&name=360x360',
-                    fit: BoxFit.cover),
-              ),
+                  size: Size.fromRadius(0.25.sw), // Image radius
+                  child: Image.memory(base64.decode("$imge"),
+                      fit: BoxFit
+                          .cover) // Image.network(imge, fit: BoxFit.cover),
+                  ),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -298,7 +343,7 @@ Widget profileItem({required int index}) {
                   width: 0.45.sw,
                   child: Flexible(
                     child: Text(
-                      "100฿",
+                      "$price ฿",
                       textAlign: TextAlign.right,
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20.sp),
@@ -313,7 +358,10 @@ Widget profileItem({required int index}) {
                   width: 0.45.sw,
                   child: Flexible(
                     child: Text(
-                      "Title",
+                      "$title",
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20.sp),
                     ),
@@ -325,8 +373,8 @@ Widget profileItem({required int index}) {
                   width: 0.45.sw,
                   child: Flexible(
                       child: Text(
-                    "descriptionnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
-                    maxLines: 5,
+                    "$description",
+                    maxLines: 4,
                     softWrap: false,
                     overflow: TextOverflow.ellipsis,
                   )),

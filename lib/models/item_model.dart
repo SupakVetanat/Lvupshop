@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class Item extends Equatable {
   String name;
+  String? username;
   String category;
   String imageUrl;
   double price;
@@ -16,7 +17,21 @@ class Item extends Equatable {
       required this.price,
       required this.detail,
       required this.isPopular,
-      required this.isRecommended});
+      required this.isRecommended,
+      this.username});
+
+  factory Item.fromJson(Map<String, dynamic> json) {
+    return Item(
+      username: json['username'],
+      price: json['price'],
+      category: json['category'],
+      imageUrl: json['image'],
+      detail: json['detail'],
+      isPopular: json['isPopular'],
+      isRecommended: json['isRecommended'],
+      name: json['name'],
+    );
+  }
 
   @override
   List<Object?> get props => [
